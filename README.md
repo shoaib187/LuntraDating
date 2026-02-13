@@ -34,4 +34,14 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
 # LuntraDating
+
+
+MONGO_DB_URI="mongodb+srv://ms0319255:SWjsGVQSEtZ6a0Tm@cluster0.cuvwgqd.mongodb.net/luntra?retryWrites=true&w=majority"
+
+JWT_SECRET = "THIS_IS_MY_SECRET_KEY_FOR_TOKEN"
+
+EMAIL_USER="ms0319255@gmail.com"
+
+EMAIL_PASS="beiv hudr bigy rgyd"
