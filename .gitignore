@@ -40,3 +40,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+luntra-70d99-firebase-adminsdk-fbsvc-f1d8c7b7cd.json
+*.json
