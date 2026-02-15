@@ -39,6 +39,12 @@ const UserSchema = new mongoose.Schema(
       select: false, // don't return password by default
     },
 
+
+    notifications: {
+      fcmToken: { type: String, default: null },
+      enabled: { type: Boolean, default: true },
+    },
+
     // 🔹 Profile Info
     gender: {
       type: String,
@@ -101,6 +107,10 @@ const UserSchema = new mongoose.Schema(
     },
     otpExpires: {
       type: Date,
+    },
+    language: {
+      type: String,
+      default: "en",
     },
 
     // 🔹 Status
