@@ -72,12 +72,12 @@ export default function LandingMainPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#FFF9F5] text-[#2D1810] overflow-x-hidden">
+    <div className="min-h-screen bg-[#FFF5F7] text-[#1E1E1E] overflow-x-hidden">
       {/* Floating gradient orbs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-[#FF6B6B]/20 to-[#FFB88C]/20 rounded-full blur-3xl animate-float" />
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-[#FFA07A]/20 to-[#FF8C94]/20 rounded-full blur-3xl animate-float-delayed" />
-        <div className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-gradient-to-bl from-[#FFB6C1]/15 to-[#FFDAB9]/15 rounded-full blur-3xl animate-pulse-slow" />
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-[#FF4B6E]/20 to-[#FF8FA3]/20 rounded-full blur-3xl animate-float" />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-[#FFB347]/20 to-[#6C5CE7]/20 rounded-full blur-3xl animate-float-delayed" />
+        <div className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-gradient-to-bl from-[#FF8FA3]/15 to-[#FFB347]/15 rounded-full blur-3xl animate-pulse-slow" />
       </div>
 
       {/* Navigation */}
@@ -85,25 +85,25 @@ export default function LandingMainPage() {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2 group cursor-pointer">
             <div className="relative">
-              <Heart className="w-8 h-8 text-[#FF6B6B] fill-[#FF6B6B] group-hover:scale-110 transition-transform" />
-              <Sparkles className="w-4 h-4 text-[#FFB88C] absolute -top-1 -right-1 group-hover:rotate-12 transition-transform" />
+              <Heart className="w-8 h-8 text-[#FF4B6E] fill-[#FF4B6E] group-hover:scale-110 transition-transform" />
+              <Sparkles className="w-4 h-4 text-[#FFB347] absolute -top-1 -right-1 group-hover:rotate-12 transition-transform" />
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-[#FF6B6B] to-[#FF8C94] bg-clip-text text-transparent">
-              Spark
+            <span className="text-2xl font-bold bg-gradient-to-r from-[#FF4B6E] to-[#FF8FA3] bg-clip-text text-transparent">
+              Luntra
             </span>
           </div>
 
           <div className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-[#5D4E46] hover:text-[#FF6B6B] transition-colors font-medium">Features</a>
-            <a href="#stories" className="text-[#5D4E46] hover:text-[#FF6B6B] transition-colors font-medium">Success Stories</a>
-            <a href="#pricing" className="text-[#5D4E46] hover:text-[#FF6B6B] transition-colors font-medium">Pricing</a>
+            <a href="#features" className="text-[#777777] hover:text-[#FF4B6E] transition-colors font-medium">Features</a>
+            <a href="#stories" className="text-[#777777] hover:text-[#FF4B6E] transition-colors font-medium">Success Stories</a>
+            <a href="#pricing" className="text-[#777777] hover:text-[#FF4B6E] transition-colors font-medium">Pricing</a>
           </div>
 
           <div className="flex items-center gap-4">
-            <button className="text-[#5D4E46] hover:text-[#FF6B6B] transition-colors font-medium">
+            <button className="text-[#777777] hover:text-[#FF4B6E] transition-colors font-medium">
               Sign In
             </button>
-            <button className="bg-gradient-to-r from-[#FF6B6B] to-[#FF8C94] text-white px-6 py-2.5 rounded-full font-medium hover:shadow-lg hover:scale-105 transition-all">
+            <button className="bg-gradient-to-r from-[#FF4B6E] to-[#FF8FA3] text-white px-6 py-2.5 rounded-full font-medium hover:shadow-lg hover:scale-105 transition-all">
               Get Started
             </button>
           </div>
@@ -116,7 +116,7 @@ export default function LandingMainPage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8 animate-fade-in-up">
               <div className="inline-block">
-                <div className="bg-[#FF6B6B]/10 text-[#FF6B6B] px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 animate-bounce-subtle">
+                <div className="bg-[#FF4B6E]/10 text-[#FF4B6E] px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 animate-bounce-subtle">
                   <Star className="w-4 h-4 fill-current" />
                   Join 2M+ people finding love
                 </div>
@@ -124,22 +124,22 @@ export default function LandingMainPage() {
 
               <h1 className="text-5xl md:text-7xl font-bold leading-tight">
                 Find Your
-                <span className="block bg-gradient-to-r from-[#FF6B6B] via-[#FF8C94] to-[#FFB88C] bg-clip-text text-transparent">
+                <span className="block bg-gradient-to-r from-[#FF4B6E] via-[#FF8FA3] to-[#FFB347] bg-clip-text text-transparent">
                   Perfect Match
                 </span>
               </h1>
 
-              <p className="text-xl text-[#5D4E46] leading-relaxed max-w-lg">
+              <p className="text-xl text-[#777777] leading-relaxed max-w-lg">
                 Stop swiping endlessly. Start connecting meaningfully.
                 Real people, real conversations, real relationships.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <button className="group bg-gradient-to-r from-[#FF6B6B] to-[#FF8C94] text-white px-8 py-4 rounded-full font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all flex items-center justify-center gap-2">
+                <button className="group bg-gradient-to-r from-[#FF4B6E] to-[#FF8FA3] text-white px-8 py-4 rounded-full font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all flex items-center justify-center gap-2">
                   Start Your Journey
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
-                <button className="bg-white text-[#FF6B6B] px-8 py-4 rounded-full font-semibold text-lg border-2 border-[#FF6B6B]/20 hover:border-[#FF6B6B] hover:shadow-lg transition-all">
+                <button className="bg-white text-[#FF4B6E] px-8 py-4 rounded-full font-semibold text-lg border-2 border-[#F0F0F0] hover:border-[#FF4B6E] hover:shadow-lg transition-all">
                   Watch How It Works
                 </button>
               </div>
@@ -147,8 +147,8 @@ export default function LandingMainPage() {
               <div className="flex items-center gap-8 pt-4">
                 {stats.slice(0, 3).map((stat, index) => (
                   <div key={index} className="animate-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
-                    <div className="text-3xl font-bold text-[#FF6B6B]">{stat.number}</div>
-                    <div className="text-sm text-[#5D4E46]">{stat.label}</div>
+                    <div className="text-3xl font-bold text-[#FF4B6E]">{stat.number}</div>
+                    <div className="text-sm text-[#777777]">{stat.label}</div>
                   </div>
                 ))}
               </div>
@@ -162,34 +162,34 @@ export default function LandingMainPage() {
                   <div className="relative w-full h-full">
                     {/* Card 1 */}
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-72 bg-white rounded-3xl shadow-2xl p-6 animate-float transform rotate-[-8deg]">
-                      <div className="w-full h-64 bg-gradient-to-br from-[#FF6B6B]/30 to-[#FFB88C]/30 rounded-2xl mb-4 flex items-center justify-center text-6xl">
+                      <div className="w-full h-64 bg-gradient-to-br from-[#FF4B6E]/30 to-[#FFB347]/30 rounded-2xl mb-4 flex items-center justify-center text-6xl">
                         👩🏻‍🦰
                       </div>
                       <h3 className="text-xl font-bold mb-1">Emma, 28</h3>
-                      <p className="text-[#5D4E46] text-sm mb-3">Loves hiking & coffee ☕️</p>
+                      <p className="text-[#777777] text-sm mb-3">Loves hiking & coffee ☕️</p>
                       <div className="flex gap-2">
-                        <span className="bg-[#FF6B6B]/10 text-[#FF6B6B] px-3 py-1 rounded-full text-xs">Adventure</span>
-                        <span className="bg-[#FFB88C]/10 text-[#FF8C94] px-3 py-1 rounded-full text-xs">Creative</span>
+                        <span className="bg-[#FF4B6E]/10 text-[#FF4B6E] px-3 py-1 rounded-full text-xs">Adventure</span>
+                        <span className="bg-[#FFB347]/10 text-[#FFB347] px-3 py-1 rounded-full text-xs">Creative</span>
                       </div>
                     </div>
 
                     {/* Card 2 */}
                     <div className="absolute bottom-0 right-0 w-72 bg-white rounded-3xl shadow-2xl p-6 animate-float-delayed transform rotate-[8deg]">
-                      <div className="w-full h-64 bg-gradient-to-br from-[#FFB88C]/30 to-[#FF8C94]/30 rounded-2xl mb-4 flex items-center justify-center text-6xl">
+                      <div className="w-full h-64 bg-gradient-to-br from-[#FFB347]/30 to-[#6C5CE7]/30 rounded-2xl mb-4 flex items-center justify-center text-6xl">
                         👨🏽‍🦱
                       </div>
                       <h3 className="text-xl font-bold mb-1">Alex, 30</h3>
-                      <p className="text-[#5D4E46] text-sm mb-3">Foodie & guitarist 🎸</p>
+                      <p className="text-[#777777] text-sm mb-3">Foodie & guitarist 🎸</p>
                       <div className="flex gap-2">
-                        <span className="bg-[#FFB88C]/10 text-[#FF8C94] px-3 py-1 rounded-full text-xs">Music</span>
-                        <span className="bg-[#FF6B6B]/10 text-[#FF6B6B] px-3 py-1 rounded-full text-xs">Cooking</span>
+                        <span className="bg-[#6C5CE7]/10 text-[#6C5CE7] px-3 py-1 rounded-full text-xs">Music</span>
+                        <span className="bg-[#FF4B6E]/10 text-[#FF4B6E] px-3 py-1 rounded-full text-xs">Cooking</span>
                       </div>
                     </div>
 
                     {/* Floating hearts */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                      <Heart className="w-16 h-16 text-[#FF6B6B] fill-[#FF6B6B] animate-pulse-slow" />
-                      <Sparkles className="w-6 h-6 text-[#FFB88C] absolute -top-2 -right-2 animate-spin-slow" />
+                      <Heart className="w-16 h-16 text-[#FF4B6E] fill-[#FF4B6E] animate-pulse-slow" />
+                      <Sparkles className="w-6 h-6 text-[#FFB347] absolute -top-2 -right-2 animate-spin-slow" />
                     </div>
                   </div>
                 </div>
@@ -204,9 +204,9 @@ export default function LandingMainPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Why Choose <span className="bg-gradient-to-r from-[#FF6B6B] to-[#FF8C94] bg-clip-text text-transparent">Spark?</span>
+              Why Choose <span className="bg-gradient-to-r from-[#FF4B6E] to-[#FF8FA3] bg-clip-text text-transparent">Luntra?</span>
             </h2>
-            <p className="text-xl text-[#5D4E46] max-w-2xl mx-auto">
+            <p className="text-xl text-[#777777] max-w-2xl mx-auto">
               We've built the features that matter most for finding genuine connections
             </p>
           </div>
@@ -215,14 +215,14 @@ export default function LandingMainPage() {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="group p-8 bg-gradient-to-br from-white to-[#FFF9F5] rounded-3xl border border-[#FF6B6B]/10 hover:border-[#FF6B6B]/30 hover:shadow-xl transition-all duration-300 animate-fade-in-up"
+                className="group p-8 bg-gradient-to-br from-white to-[#FFF5F7] rounded-3xl border border-[#F0F0F0] hover:border-[#FF4B6E]/30 hover:shadow-xl transition-all duration-300 animate-fade-in-up"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className="w-14 h-14 bg-gradient-to-br from-[#FF6B6B] to-[#FF8C94] rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform">
+                <div className="w-14 h-14 bg-gradient-to-br from-[#FF4B6E] to-[#FF8FA3] rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform">
                   {feature.icon}
                 </div>
                 <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                <p className="text-[#5D4E46] leading-relaxed">{feature.description}</p>
+                <p className="text-[#777777] leading-relaxed">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -236,14 +236,14 @@ export default function LandingMainPage() {
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
               Real Stories, Real Love
             </h2>
-            <p className="text-xl text-[#5D4E46]">
+            <p className="text-xl text-[#777777]">
               Over 500,000 couples have found their match
             </p>
           </div>
 
           <div className="relative max-w-4xl mx-auto">
             <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#FF6B6B]/10 to-[#FFB88C]/10 rounded-full blur-3xl" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#FF4B6E]/10 to-[#FFB347]/10 rounded-full blur-3xl" />
 
               {testimonials.map((testimonial, index) => (
                 <div
@@ -252,12 +252,12 @@ export default function LandingMainPage() {
                     }`}
                 >
                   <div className="text-6xl mb-6">{testimonial.image}</div>
-                  <p className="text-2xl md:text-3xl font-medium mb-6 leading-relaxed text-[#2D1810]">
+                  <p className="text-2xl md:text-3xl font-medium mb-6 leading-relaxed text-[#1E1E1E]">
                     "{testimonial.text}"
                   </p>
                   <div>
-                    <div className="font-bold text-lg text-[#FF6B6B]">{testimonial.name}</div>
-                    <div className="text-[#5D4E46]">{testimonial.location}</div>
+                    <div className="font-bold text-lg text-[#FF4B6E]">{testimonial.name}</div>
+                    <div className="text-[#777777]">{testimonial.location}</div>
                   </div>
                 </div>
               ))}
@@ -267,7 +267,7 @@ export default function LandingMainPage() {
                   <button
                     key={index}
                     onClick={() => setActiveTestimonial(index)}
-                    className={`w-2 h-2 rounded-full transition-all ${index === activeTestimonial ? 'bg-[#FF6B6B] w-8' : 'bg-[#FF6B6B]/30'
+                    className={`w-2 h-2 rounded-full transition-all ${index === activeTestimonial ? 'bg-[#FF4B6E] w-8' : 'bg-[#FF4B6E]/30'
                       }`}
                   />
                 ))}
@@ -284,38 +284,38 @@ export default function LandingMainPage() {
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
               Choose Your Plan
             </h2>
-            <p className="text-xl text-[#5D4E46]">
+            <p className="text-xl text-[#777777]">
               Start for free, upgrade when you're ready
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {/* Free Plan */}
-            <div className="bg-gradient-to-br from-white to-[#FFF9F5] rounded-3xl p-8 border-2 border-[#FF6B6B]/10">
+            <div className="bg-gradient-to-br from-white to-[#FFF5F7] rounded-3xl p-8 border-2 border-[#F0F0F0]">
               <h3 className="text-2xl font-bold mb-2">Free</h3>
-              <div className="text-4xl font-bold mb-6">$0<span className="text-lg text-[#5D4E46] font-normal">/month</span></div>
+              <div className="text-4xl font-bold mb-6">$0<span className="text-lg text-[#777777] font-normal">/month</span></div>
               <ul className="space-y-4 mb-8">
                 <li className="flex items-center gap-3">
-                  <Check className="w-5 h-5 text-[#FF6B6B]" />
+                  <Check className="w-5 h-5 text-[#28C76F]" />
                   <span>10 likes per day</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <Check className="w-5 h-5 text-[#FF6B6B]" />
+                  <Check className="w-5 h-5 text-[#28C76F]" />
                   <span>Basic matching</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <Check className="w-5 h-5 text-[#FF6B6B]" />
+                  <Check className="w-5 h-5 text-[#28C76F]" />
                   <span>Send messages</span>
                 </li>
               </ul>
-              <button className="w-full bg-[#FF6B6B]/10 text-[#FF6B6B] py-3 rounded-full font-semibold hover:bg-[#FF6B6B]/20 transition-all">
+              <button className="w-full bg-[#FF4B6E]/10 text-[#FF4B6E] py-3 rounded-full font-semibold hover:bg-[#FF4B6E]/20 transition-all">
                 Get Started
               </button>
             </div>
 
             {/* Premium Plan */}
-            <div className="bg-gradient-to-br from-[#FF6B6B] to-[#FF8C94] rounded-3xl p-8 text-white transform scale-105 shadow-2xl relative">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#FFB88C] text-[#2D1810] px-4 py-1 rounded-full text-sm font-bold">
+            <div className="bg-gradient-to-br from-[#FF4B6E] to-[#FF8FA3] rounded-3xl p-8 text-white transform scale-105 shadow-2xl relative">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#FFB347] text-[#1E1E1E] px-4 py-1 rounded-full text-sm font-bold">
                 Most Popular
               </div>
               <h3 className="text-2xl font-bold mb-2">Premium</h3>
@@ -342,34 +342,34 @@ export default function LandingMainPage() {
                   <span>Video chat</span>
                 </li>
               </ul>
-              <button className="w-full bg-white text-[#FF6B6B] py-3 rounded-full font-semibold hover:shadow-lg transition-all">
+              <button className="w-full bg-white text-[#FF4B6E] py-3 rounded-full font-semibold hover:shadow-lg transition-all">
                 Get Premium
               </button>
             </div>
 
             {/* VIP Plan */}
-            <div className="bg-gradient-to-br from-white to-[#FFF9F5] rounded-3xl p-8 border-2 border-[#FF6B6B]/10">
+            <div className="bg-gradient-to-br from-white to-[#FFF5F7] rounded-3xl p-8 border-2 border-[#F0F0F0]">
               <h3 className="text-2xl font-bold mb-2">VIP</h3>
-              <div className="text-4xl font-bold mb-6">$39<span className="text-lg text-[#5D4E46] font-normal">/month</span></div>
+              <div className="text-4xl font-bold mb-6">$39<span className="text-lg text-[#777777] font-normal">/month</span></div>
               <ul className="space-y-4 mb-8">
                 <li className="flex items-center gap-3">
-                  <Check className="w-5 h-5 text-[#FF6B6B]" />
+                  <Check className="w-5 h-5 text-[#28C76F]" />
                   <span>Everything in Premium</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <Check className="w-5 h-5 text-[#FF6B6B]" />
+                  <Check className="w-5 h-5 text-[#28C76F]" />
                   <span>Priority matching</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <Check className="w-5 h-5 text-[#FF6B6B]" />
+                  <Check className="w-5 h-5 text-[#28C76F]" />
                   <span>Profile verification</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <Check className="w-5 h-5 text-[#FF6B6B]" />
+                  <Check className="w-5 h-5 text-[#28C76F]" />
                   <span>Relationship coaching</span>
                 </li>
               </ul>
-              <button className="w-full bg-gradient-to-r from-[#FF6B6B] to-[#FF8C94] text-white py-3 rounded-full font-semibold hover:shadow-lg transition-all">
+              <button className="w-full bg-gradient-to-r from-[#FF4B6E] to-[#FF8FA3] text-white py-3 rounded-full font-semibold hover:shadow-lg transition-all">
                 Get VIP
               </button>
             </div>
@@ -380,7 +380,7 @@ export default function LandingMainPage() {
       {/* CTA Section */}
       <section className="relative px-6 py-20 md:px-12 lg:px-20">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="bg-gradient-to-br from-[#FF6B6B] to-[#FF8C94] rounded-3xl p-12 md:p-16 shadow-2xl relative overflow-hidden">
+          <div className="bg-gradient-to-br from-[#FF4B6E] to-[#FF8FA3] rounded-3xl p-12 md:p-16 shadow-2xl relative overflow-hidden">
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLW9wYWNpdHk9IjAuMSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-30" />
 
             <div className="relative z-10">
@@ -390,7 +390,7 @@ export default function LandingMainPage() {
               <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
                 Join millions of people finding meaningful connections every day
               </p>
-              <button className="bg-white text-[#FF6B6B] px-10 py-4 rounded-full font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all inline-flex items-center gap-2">
+              <button className="bg-white text-[#FF4B6E] px-10 py-4 rounded-full font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all inline-flex items-center gap-2">
                 Start Matching Now
                 <Heart className="w-5 h-5 fill-current" />
               </button>
@@ -400,22 +400,22 @@ export default function LandingMainPage() {
       </section>
 
       {/* Footer */}
-      <footer className="relative px-6 py-12 md:px-12 lg:px-20 bg-[#2D1810] text-white">
+      <footer className="relative px-6 py-12 md:px-12 lg:px-20 bg-[#1E1E1E] text-white">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <Heart className="w-6 h-6 text-[#FF6B6B] fill-[#FF6B6B]" />
-                <span className="text-xl font-bold">Spark</span>
+                <Heart className="w-6 h-6 text-[#FF4B6E] fill-[#FF4B6E]" />
+                <span className="text-xl font-bold">Luntra</span>
               </div>
-              <p className="text-white/70">
+              <p className="text-[#AAAAAA]">
                 Building meaningful connections, one match at a time.
               </p>
             </div>
 
             <div>
               <h4 className="font-bold mb-4">Company</h4>
-              <ul className="space-y-2 text-white/70">
+              <ul className="space-y-2 text-[#AAAAAA]">
                 <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Press</a></li>
@@ -425,7 +425,7 @@ export default function LandingMainPage() {
 
             <div>
               <h4 className="font-bold mb-4">Support</h4>
-              <ul className="space-y-2 text-white/70">
+              <ul className="space-y-2 text-[#AAAAAA]">
                 <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Safety</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Community Guidelines</a></li>
@@ -435,7 +435,7 @@ export default function LandingMainPage() {
 
             <div>
               <h4 className="font-bold mb-4">Legal</h4>
-              <ul className="space-y-2 text-white/70">
+              <ul className="space-y-2 text-[#AAAAAA]">
                 <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Cookie Policy</a></li>
@@ -443,8 +443,8 @@ export default function LandingMainPage() {
             </div>
           </div>
 
-          <div className="border-t border-white/10 pt-8 text-center text-white/70">
-            <p>&copy; 2026 Spark. All rights reserved. Made with ❤️ for everyone seeking love.</p>
+          <div className="border-t border-white/10 pt-8 text-center text-[#AAAAAA]">
+            <p>&copy; 2026 Luntra. All rights reserved. Made with ❤️ for everyone seeking love.</p>
           </div>
         </div>
       </footer>

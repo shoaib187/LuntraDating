@@ -112,6 +112,8 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: "en",
     },
+    // so that we can exclude already seen profiles in the discovery feed
+    seenProfiles: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
 
     // 🔹 Status
     isVerified: { type: Boolean, default: false },

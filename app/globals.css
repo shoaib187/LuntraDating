@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "tailwindcss";
+
 
 :root {
   --background: #ffffff;
@@ -8,8 +10,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-family-sans: 'var(--font-space-grotesk)', system-ui, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
