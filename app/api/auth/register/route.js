@@ -10,7 +10,7 @@ export async function POST(req) {
   try {
     await connectDB();
     const body = await req.json();
-    const { name, email, password, gender, interestedIn, dob } = body;
+    const { name, email, password, gender = "male", interestedIn = "female", dob = "1998-05-10" } = body;
 
     // 1. Basic Validation
     if (!name || !email || !password) {

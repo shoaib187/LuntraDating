@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        poppins: ["Poppins", "sans-serif"],
+        sans: ["var(--font-space-grotesk)", "sans-serif"],
       },
       animation: {
         marqueeXtoY: "scrollXtoY 10s linear infinite",

@@ -42,9 +42,7 @@ export async function POST(req) {
 
     // 🔹 Create JWT token
     const payload = { id: user._id, email: user.email, role: user.role };
-    const token = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRES_IN || "7d",
-    });
+    const token = jwt.sign(payload, process.env.JWT_SECRET);
 
     // 🔹 Return user info (exclude password) + token
     const { password: pwd, ...userData } = user.toObject();
