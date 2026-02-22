@@ -37,7 +37,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 # LuntraDating
 
-
 MONGO_DB_URI="mongodb+srv://ms0319255:SWjsGVQSEtZ6a0Tm@cluster0.cuvwgqd.mongodb.net/luntra?retryWrites=true&w=majority"
 
 JWT_SECRET = "THIS_IS_MY_SECRET_KEY_FOR_TOKEN"

@@ -53,6 +53,6 @@ export async function POST(req) {
 
   } catch (error) {
     console.error("Verification Error:", error);
-    return NextResponse.json({ message: "Server error during verification" }, { status: 500 });
+    return NextResponse.json({ message: "Server error during verification", error }, { status: 500 });
   }
 }

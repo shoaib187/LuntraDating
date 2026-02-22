@@ -3,8 +3,10 @@
 import React from 'react';
 import { Heart, Mail, Lock, ArrowRight, Chrome, Github, Fingerprint } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function SignIn() {
+  const router = useRouter();
   return (
     <div className="min-h-screen bg-[#FFF5F7] flex items-center justify-center p-6 relative overflow-hidden">
       {/* Background Decorative Elements */}
