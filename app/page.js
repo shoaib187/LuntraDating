@@ -1,4 +1,4 @@
-import LandingMainPage from './components/landingMainPage/landingMainPage';
+import LandingMainPage from './components/landingPage/landingMainPage/landingMainPage';
 export default function page() {
   return <LandingMainPage />
 }

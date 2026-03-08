@@ -28,7 +28,7 @@ export async function GET(req) {
     }
 
     const isPremium = currentUser.role === "premium";
-    const limit = isPremium ? 40 : 15;
+    const limit = isPremium ? 100 : 50;
 
     // 4. Collect all IDs to EXCLUDE (Matches, Likes, and Already Seen)
     const excludeIds = [
@@ -73,6 +73,7 @@ export async function GET(req) {
           gender: 1,
           distance: { $round: ["$distance", 1] },
           lastActiveAt: 1,
+          location: 1,
         }
       }
     ]);

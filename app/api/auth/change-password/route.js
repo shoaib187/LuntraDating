@@ -47,6 +47,6 @@ export async function PATCH(req) {
 
   } catch (error) {
     console.error("🛑 Change Password Error:", error);
-    return NextResponse.json({ message: "Server error" }, { status: 500 });
+    return NextResponse.json({ message: "Server error", error }, { status: 500 });
   }
 }

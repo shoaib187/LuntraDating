@@ -8,12 +8,17 @@ const StorySchema = new mongoose.Schema({
   },
   mediaUrl: {
     type: String, // URL from Cloudinary or S3
-    required: true,
+    required: false,
+    default: "",
   },
   mediaType: {
     type: String,
-    enum: ["image", "video"],
+    enum: ["image", "video", "text"],
     default: "image",
+  },
+  caption: { // 2. Add caption to your schema!
+    type: String,
+    default: "",
   },
   views: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   expiresAt: {

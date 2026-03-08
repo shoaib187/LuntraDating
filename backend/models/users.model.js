@@ -83,7 +83,13 @@ const UserSchema = new mongoose.Schema(
         default: [0, 0],
       },
     },
-
+    address: {
+      street: String,
+      city: String,
+      state: String,
+      zipCode: String,
+      formattedAddress: String // "123 React Lane, NY"
+    },
     // 🔹 Account Type
     role: {
       type: String,
@@ -97,6 +103,9 @@ const UserSchema = new mongoose.Schema(
     // 🔹 Feature Usage Tracking
     usage: UsageSchema,
 
+    interests: [String],
+    height: Number,
+    age: Number,
     // 🔹 Dating Logic
     likesSent: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     likesReceived: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],

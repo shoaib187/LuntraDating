@@ -12,38 +12,61 @@ export async function GET(req) {
     if (!authUser) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
     const currentUser = await Users.findById(authUser.id);
+    const userId = currentUser._id.toString();
 
-    // 1. Fetch stories from matches
+    // 1. Fetch all active stories from matches
     const stories = await Story.find({
       user: { $in: currentUser.matches },
-      // Note: If you used the TTL index 'expires', you don't strictly need the $gt check, 
-      // but it doesn't hurt.
       expiresAt: { $gt: new Date() }
     })
       .populate("user", "name profileImage")
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: 1 }); // Sort oldest to newest so they play in order
 
-    // 2. Map through stories to add the 'isSeen' flag
-    const storiesWithSeenStatus = stories.map((story) => {
-      const storyObj = story.toObject();
+    // 2. Group stories by User
+    const groupedStories = stories.reduce((acc, story) => {
+      const storyAuthor = story.user;
+      const authorId = storyAuthor._id.toString();
 
-      // Check if current user's ID exists in the views array
-      // We use .some() or .includes() for the comparison
-      const isSeen = story.views.some(
-        (viewerId) => viewerId.toString() === currentUser._id.toString()
-      );
+      // Find if this user already has a group in our accumulator
+      let userGroup = acc.find((group) => group.userId === authorId);
 
-      return {
-        ...storyObj,
-        isSeen: isSeen,
-        viewsCount: story.views.length // Useful for the UI
+      const isSeen = story.views.some(v => v.toString() === userId);
+
+      const storyData = {
+        ...story.toObject(),
+        isSeen
       };
+
+      if (!userGroup) {
+        // If first story for this user, create the group
+        acc.push({
+          userId: authorId,
+          userName: storyAuthor.name,
+          userImage: storyAuthor.profileImage,
+          allSeen: isSeen, // We will update this logic below
+          stories: [storyData]
+        });
+      } else {
+        // If group exists, push story and update overall seen status
+        userGroup.stories.push(storyData);
+        // If any story in the bundle is NOT seen, the ring should stay colored
+        if (!isSeen) userGroup.allSeen = false;
+      }
+
+      return acc;
+    }, []);
+
+    // 3. Final Polish: Sort grouped users by the timestamp of their latest story
+    const sortedGroups = groupedStories.sort((a, b) => {
+      const latestA = a.stories[a.stories.length - 1].createdAt;
+      const latestB = b.stories[b.stories.length - 1].createdAt;
+      return latestB - latestA;
     });
 
     return NextResponse.json({
       success: true,
-      count: storiesWithSeenStatus.length,
-      stories: storiesWithSeenStatus
+      count: sortedGroups.length,
+      data: sortedGroups
     });
 
   } catch (error) {
@@ -51,7 +74,6 @@ export async function GET(req) {
     return NextResponse.json({ message: "Server error", error: error.message }, { status: 500 });
   }
 }
-
 
 
 // import { NextResponse } from "next/server";
