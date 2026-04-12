@@ -20,7 +20,7 @@ export async function POST(req) {
     // 2. Paywall Logic
     if (authUser.role === "free") {
       const activeStories = await Story.countDocuments({ user: authUser.id });
-      if (activeStories >= 1) {
+      if (activeStories >= 5) {
         return NextResponse.json({
           message: "Free users can only post 1 story. Upgrade for unlimited!"
         }, { status: 403 });

@@ -13,20 +13,34 @@ export async function GET(req) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    // 2. Find all matches for this user
-    // We populate 'users' but exclude the current user's own data in the next step
-    const matches = await Match.find({
-      users: { $in: [currentUser.id] },
-      isDeleted: false
-    })
-      .populate({
-        path: "users",
-        select: "name photos bio gender isOnline lastActiveAt" // Only public info
-      })
-      .sort({ createdAt: -1 }); // Newest matches first
+    // 2. Parse Pagination Parameters
+    const { searchParams } = new URL(req.url);
+    const page = parseInt(searchParams.get("page")) || 1;
+    const limit = parseInt(searchParams.get("limit")) || 20;
+    const skip = (page - 1) * limit;
 
-    // 3. Transform the data
-    // We want to return the "other" person's info directly for the frontend
+    // 3. Find matches with Pagination
+    // We run the count and the find concurrently for better performance
+    const [matches, totalMatches] = await Promise.all([
+      Match.find({
+        users: { $in: [currentUser.id] },
+        isDeleted: false
+      })
+        .populate({
+          path: "users",
+          select: "name photos bio gender isOnline lastActiveAt"
+        })
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit),
+
+      Match.countDocuments({
+        users: { $in: [currentUser.id] },
+        isDeleted: false
+      })
+    ]);
+
+    // 4. Transform the data
     const matchData = matches.map((match) => {
       const otherUser = match.users.find(
         (user) => user._id.toString() !== currentUser.id
@@ -39,9 +53,16 @@ export async function GET(req) {
       };
     });
 
+    // 5. Return Metadata for Frontend
     return NextResponse.json({
       success: true,
       count: matchData.length,
+      pagination: {
+        total: totalMatches,
+        page,
+        limit,
+        totalPages: Math.ceil(totalMatches / limit)
+      },
       matches: matchData
     });
 

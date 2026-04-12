@@ -152,25 +152,29 @@ export default function LandingMainPage() {
       title: "AI-Powered Compatibility",
       description: "Our advanced algorithm analyzes personality traits, interests, and values to find your perfect match.",
       image: "🧠",
-      color: "from-purple-500 to-pink-500"
+      color: "from-purple-500 to-pink-500",
+      imageUrl: "/images/img15.jpg"
     },
     {
       title: "Video First Dates",
       description: "Get to know your matches safely with our integrated video chat feature before meeting in person.",
       image: "📹",
-      color: "from-blue-500 to-cyan-500"
+      color: "from-blue-500 to-cyan-500",
+      imageUrl: "/images/img15.jpg"
     },
     {
       title: "Interest-Based Communities",
       description: "Join groups based on your hobbies and meet like-minded people organically.",
       image: "🎯",
-      color: "from-green-500 to-emerald-500"
+      color: "from-green-500 to-emerald-500",
+      imageUrl: "/images/img15.jpg"
     },
     {
       title: "Safety First",
       description: "24/7 moderation, photo verification, and safety features to ensure a secure dating experience.",
       image: "🛡️",
-      color: "from-red-500 to-orange-500"
+      color: "from-red-500 to-orange-500",
+      imageUrl: "/images/img15.jpg"
     }
   ];
 
@@ -568,13 +572,6 @@ export default function LandingMainPage() {
                 </div>
               </div>
             </div>
-
-            {/* Scroll indicator */}
-            <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-              <div className="w-6 h-10 border-2 border-[#FF4B6E] rounded-full flex justify-center">
-                <div className="w-1 h-3 bg-[#FF4B6E] rounded-full mt-2 animate-scroll" />
-              </div>
-            </div>
           </div>
         </section>
 
@@ -659,7 +656,7 @@ export default function LandingMainPage() {
                       onMouseEnter={() => setActiveFeature(index)}
                     >
                       <div className="flex items-start gap-4">
-                        <div className={`text-4xl bg-gradient-to-br ${item.color} w-16 h-16 rounded-2xl flex items-center justify-center text-white`}>
+                        <div className={`text-4xl bg-gradient-to-br ${item.color} min-w-16 h-16 rounded-2xl flex items-center justify-center text-white`}>
                           {item.image}
                         </div>
                         <div>
@@ -675,7 +672,7 @@ export default function LandingMainPage() {
               <div className="relative">
                 <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 aspect-square flex items-center justify-center">
                   <div className="text-8xl animate-float">
-                    {featuresShowcase[activeFeature].image}
+                    <Image width={1000} height={1000} src={featuresShowcase[activeFeature].imageUrl} className='w-full h-full' />
                   </div>
 
                   {/* Animated rings */}

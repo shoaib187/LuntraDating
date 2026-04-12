@@ -76,7 +76,7 @@ const UserSchema = new mongoose.Schema(
       type: {
         type: String,
         enum: ["Point"],
-        default: "Point",
+        default: "Khanewal",
       },
       coordinates: {
         type: [Number], // [longitude, latitude]
@@ -131,6 +131,14 @@ const UserSchema = new mongoose.Schema(
     isVerified: { type: Boolean, default: false },
     isBlocked: { type: Boolean, default: false },
     isOnline: { type: Boolean, default: false },
+    reportCount: { type: Number, default: 0 },
+
+    jobTitle: { type: String, trim: true },
+    company: { type: String, trim: true },
+    education: { type: String, trim: true },
+    drinking: { type: String, enum: ["socially", "never", "frequently"] },
+    smoking: { type: String, enum: ["socially", "never", "frequently"] },
+
     lastActiveAt: Date,
   },
   { timestamps: true }

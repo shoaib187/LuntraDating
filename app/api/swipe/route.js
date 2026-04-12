@@ -3,6 +3,8 @@ import connectDB from "../../../backend/lib/db/db";
 import User from "../../../backend/models/users.model";
 import Match from "../../../backend/models/matches.model";
 import { getUserFromRequest } from "../../../backend/lib/auth/auth";
+import Notification from "../../../backend/models/notifications.model";
+import { sendPushNotification } from "../../../backend/lib/notifications/sendPushNotifications";
 
 export async function POST(req) {
   try {
@@ -19,7 +21,7 @@ export async function POST(req) {
     // 2. Handle Swipe Limits (For Free Users)
     // if (user.role === "free" && user.usage.dailySwipes >= 20) {
     // ✅ Use optional chaining (?.) and a fallback value (|| 0)
-    if (user.role === "free" && (user.usage?.dailySwipes || 0) >= 10) {
+    if (user.role === "free" && (user.usage?.dailySwipes || 0) >= 100) {
       return NextResponse.json({
         message: "Daily limit reached. Upgrade to Premium for unlimited swipes!",
         limitReached: true
@@ -37,6 +39,15 @@ export async function POST(req) {
       // Update target's likesReceived
       await User.findByIdAndUpdate(targetUserId, {
         $addToSet: { likesReceived: user._id }
+      });
+
+      await sendPushNotification(targetUserId, "New Like!", "Someone liked you! Check it out.");
+
+      await Notification.create({
+        type: "like",
+        sender: user?._id,
+        receiver: targetUserId,
+        message: "Someone liked you!",
       });
 
       // 4. CHECK FOR A MATCH
@@ -76,6 +87,6 @@ export async function POST(req) {
 
   } catch (error) {
     console.error("Swipe Error:", error);
-    return NextResponse.json({ message: "Server Error" }, { status: 500 });
+    return NextResponse.json({ message: "Server Error", error }, { status: 500 });
   }
 }
