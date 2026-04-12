@@ -1,6 +1,6 @@
 import { getUserFromRequest } from "../../../../backend/lib/auth/auth";
 import connectDB from "../../../../backend/lib/db/db";
-import Notification from "../../../../backend/models/notification.model";
+import Notification from "../../../../backend/models/notifications.model.js";
 
 export async function PATCH(req) {
   try {

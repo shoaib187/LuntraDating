@@ -1,7 +1,7 @@
 // app/api/notifications/route.js
 import { NextResponse } from "next/server";
 import connectDB from "../../../../backend/lib/db/db";
-import Notification from "../../../../backend/models/notification.model";
+import Notification from "../../../../backend/models/notifications.model";
 import { getUserFromRequest } from "../../../../backend/lib/auth/auth";
 
 export async function GET(req) {
