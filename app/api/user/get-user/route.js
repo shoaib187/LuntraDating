@@ -15,29 +15,46 @@ export async function GET(req) {
 
     const url = new URL(req.url);
     const page = parseInt(url.searchParams.get("page") || "1");
-    const limit = parseInt(url.searchParams.get("limit") || (currentUser.role === "premium" ? "50" : "20"));
+    const limit = parseInt(
+      url.searchParams.get("limit") ||
+        (currentUser.role === "premium" ? "50" : "20")
+    );
     const skip = (page - 1) * limit;
 
     // --- Prepare Age Dates ---
     const now = new Date();
     const minAge = 18;
     const maxAge = 99;
-    const minDob = new Date(now.getFullYear() - maxAge, now.getMonth(), now.getDate());
-    const maxDob = new Date(now.getFullYear() - minAge, now.getMonth(), now.getDate());
+    const minDob = new Date(
+      now.getFullYear() - maxAge,
+      now.getMonth(),
+      now.getDate()
+    );
+    const maxDob = new Date(
+      now.getFullYear() - minAge,
+      now.getMonth(),
+      now.getDate()
+    );
 
     // --- Build the Match Query (Conditions for $geoNear) ---
     const matchQuery = {
       _id: {
         $ne: new mongoose.Types.ObjectId(currentUser.id), // Exclude self
-        $nin: (currentUser.matches || []).map(id => new mongoose.Types.ObjectId(id)) // Exclude matches
+        $nin: (currentUser.matches || []).map(
+          (id) => new mongoose.Types.ObjectId(id)
+        ), // Exclude matches
       },
       isBlocked: false,
       isVerified: true,
-      dob: { $gte: minDob, $lte: maxDob }
+      dob: { $gte: minDob, $lte: maxDob },
     };
 
     if (currentUser.interestedIn) {
-      matchQuery.gender = { $in: Array.isArray(currentUser.interestedIn) ? currentUser.interestedIn : [currentUser.interestedIn] };
+      matchQuery.gender = {
+        $in: Array.isArray(currentUser.interestedIn)
+          ? currentUser.interestedIn
+          : [currentUser.interestedIn],
+      };
     }
 
     // --- Aggregation Pipeline ---
@@ -102,9 +119,6 @@ export async function GET(req) {
     return NextResponse.json({ message: "Server Error" }, { status: 500 });
   }
 }
-
-
-
 
 // import { NextResponse } from "next/server";
 // import User from "../../../../backend/models/users.model";

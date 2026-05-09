@@ -1,12 +1,11 @@
-
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import connectDB from '../../../../backend/lib/db/db';
-import User from '../../../../backend/models/users.model';
-import Plan from '../../../../backend/models/plan.model';
-import { sendOTPEmail } from '../../../../backend/lib/mail/sendMail';
-import cloudinary from '../../../../backend/lib/cloudinary/cloudinary';
+import connectDB from "../../../../backend/lib/db/db";
+import User from "../../../../backend/models/users.model";
+import Plan from "../../../../backend/models/plan.model";
+import { sendOTPEmail } from "../../../../backend/lib/mail/sendMail";
+import cloudinary from "../../../../backend/lib/cloudinary/cloudinary";
 
 const generateToken = (userId) => {
   const secret = process.env.JWT_SECRET;
@@ -23,15 +22,27 @@ export async function POST(req) {
   try {
     await connectDB();
     const body = await req.json();
+    console.log("body", body);
     const {
-      name, email, password, image, interests = ["sports"],
-      gender = "male", interestedIn = "female", dob = "1998-05-10",
-      age = 18, height = 123
+      name,
+      email,
+      password,
+      image,
+      interests = ["sports"],
+      gender = "male",
+      interestedIn = "female",
+      dob = "1998-05-10",
+      age = 18,
+      height = 123,
+      photos = [],
     } = body;
 
     // 1. Basic Validation
     if (!name || !email || !password) {
-      return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
+      return NextResponse.json(
+        { message: "Missing required fields" },
+        { status: 400 }
+      );
     }
 
     // --- Image Logic for Postman ---
@@ -47,7 +58,10 @@ export async function POST(req) {
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return NextResponse.json({ message: "Email already registered" }, { status: 400 });
+      return NextResponse.json(
+        { message: "Email already registered" },
+        { status: 400 }
+      );
     }
 
     // 2. Generate OTP and Expiry (e.g., 10 minutes)
@@ -72,8 +86,13 @@ export async function POST(req) {
       age,
       otpExpires,
       role: "free",
-      subscription: { planId: freePlan?._id, isActive: false },
-      profileImage: profileImageUrl
+      location: body.location,
+      subscription: {
+        planId: freePlan?._id,
+        isActive: false,
+      },
+      profileImage: profileImageUrl,
+      photos: photos || [],
     });
 
     // 4. Send the Email
@@ -81,20 +100,18 @@ export async function POST(req) {
 
     const token = generateToken(user._id); // Use your existing JWT logic here
 
-    return NextResponse.json({
-      success: true,
-      message: "OTP sent to email. Please verify to complete registration.",
-      userId: user._id,
-      user,
-      token
-    }, { status: 201 });
-
+    return NextResponse.json(
+      {
+        success: true,
+        message: "OTP sent to email. Please verify to complete registration.",
+        userId: user._id,
+        user,
+        token,
+      },
+      { status: 201 }
+    );
   } catch (error) {
     console.error("Registration Error:", error);
     return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 }
-
-
-
-

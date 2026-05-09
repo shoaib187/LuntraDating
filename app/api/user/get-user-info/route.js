@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import connectDB from "../../../../backend/lib/db/db";
 import User from "../../../../backend/models/users.model";
-import Plan from "../../../../backend/models/plan.model";
 import { getUserFromRequest } from "../../../../backend/lib/auth/auth";
 
 // Helper function to calculate distance in KM
@@ -13,8 +12,10 @@ function getDistance(coords1, coords2) {
   const dLon = (lon2 - lon1) * (Math.PI / 180);
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    Math.cos(lat1 * (Math.PI / 180)) *
+      Math.cos(lat2 * (Math.PI / 180)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return parseFloat((R * c).toFixed(1)); // Return rounded to 1 decimal
 }
@@ -28,15 +29,21 @@ export async function GET(req) {
     const authUser = await getUserFromRequest(req);
 
     if (!targetUserId && !authUser) {
-      return NextResponse.json({ message: "Authentication or User ID required" }, { status: 401 });
+      return NextResponse.json(
+        { message: "Authentication or User ID required" },
+        { status: 401 }
+      );
     }
 
     const finalUserId = targetUserId || authUser.id;
     const isSelfView = authUser && authUser.id === finalUserId;
 
     // Fetch Target User
-    const targetUser = await User.findById(finalUserId).populate("subscription.planId");
-    if (!targetUser) return NextResponse.json({ message: "User not found" }, { status: 404 });
+    const targetUser = await User.findById(finalUserId).populate(
+      "subscription.planId"
+    );
+    if (!targetUser)
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
 
     // --- Distance Calculation Logic ---
     let distance = null;
@@ -46,7 +53,12 @@ export async function GET(req) {
       const targetCoords = targetUser.location?.coordinates;
       const myCoords = currentUser.location?.coordinates;
 
-      if (targetCoords && myCoords && targetCoords[0] !== 0 && myCoords[0] !== 0) {
+      if (
+        targetCoords &&
+        myCoords &&
+        targetCoords[0] !== 0 &&
+        myCoords[0] !== 0
+      ) {
         distance = getDistance(myCoords, targetCoords);
       }
     }
@@ -61,7 +73,9 @@ export async function GET(req) {
     }
 
     // 2. Public/Premium View
-    const viewer = authUser ? await User.findById(authUser.id).select("role") : null;
+    const viewer = authUser
+      ? await User.findById(authUser.id).select("role")
+      : null;
     const viewerRole = viewer?.role || "free";
 
     if (viewerRole === "premium") {
@@ -70,7 +84,7 @@ export async function GET(req) {
       return NextResponse.json({
         success: true,
         isPremiumView: true,
-        user: { ...userObj, distance } // Added distance
+        user: { ...userObj, distance }, // Added distance
       });
     }
 
@@ -84,23 +98,22 @@ export async function GET(req) {
       role: targetUser.role,
       isOnline: targetUser.isOnline,
       location: targetUser.location, // Return coordinates
-      distance // Added distance
+      distance, // Added distance
     };
 
     return NextResponse.json({
       success: true,
       isPremiumView: false,
       user: basicProfile,
-      message: distance ? null : "Location data unavailable for distance calculation"
+      message: distance
+        ? null
+        : "Location data unavailable for distance calculation",
     });
-
   } catch (error) {
     console.error("Profile Fetch Error:", error);
     return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 }
-
-
 
 // import { NextResponse } from "next/server";
 // import connectDB from "../../../../backend/lib/db/db";
@@ -125,7 +138,7 @@ export async function GET(req) {
 //       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 //     }
 
-//     // 2. IMPORTANT: Fetch fresh user data from DB 
+//     // 2. IMPORTANT: Fetch fresh user data from DB
 //     // This ensures that if they JUST upgraded, we see the 'premium' role.
 //     const currentUser = await User.findById(authUser.id);
 

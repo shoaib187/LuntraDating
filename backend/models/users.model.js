@@ -1,23 +1,29 @@
 import mongoose from "mongoose";
 
-const SubscriptionSchema = new mongoose.Schema({
-  planId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Plan",
+const SubscriptionSchema = new mongoose.Schema(
+  {
+    planId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Plan",
+    },
+    startDate: Date,
+    endDate: Date,
+    isActive: {
+      type: Boolean,
+      default: false,
+    },
   },
-  startDate: Date,
-  endDate: Date,
-  isActive: {
-    type: Boolean,
-    default: false,
-  },
-}, { _id: false });
+  { _id: false }
+);
 
-const UsageSchema = new mongoose.Schema({
-  dailySwipes: { type: Number, default: 0 },
-  superLikesUsed: { type: Number, default: 0 },
-  profileBoostsUsed: { type: Number, default: 0 },
-}, { _id: false });
+const UsageSchema = new mongoose.Schema(
+  {
+    dailySwipes: { type: Number, default: 0 },
+    superLikesUsed: { type: Number, default: 0 },
+    profileBoostsUsed: { type: Number, default: 0 },
+  },
+  { _id: false }
+);
 
 const UserSchema = new mongoose.Schema(
   {
@@ -39,7 +45,6 @@ const UserSchema = new mongoose.Schema(
       select: false, // don't return password by default
     },
 
-
     notifications: {
       fcmToken: { type: String, default: null },
       enabled: { type: Boolean, default: true },
@@ -60,7 +65,7 @@ const UserSchema = new mongoose.Schema(
         "everyone",
         "men_and_women",
         "queer",
-        "binary_only" // Only men and women
+        "binary_only", // Only men and women
       ],
     },
     bio: {
@@ -75,8 +80,8 @@ const UserSchema = new mongoose.Schema(
     location: {
       type: {
         type: String,
-        enum: ["Point"],
-        default: "Khanewal",
+        deafult: ["Point"],
+        default: "Point",
       },
       coordinates: {
         type: [Number], // [longitude, latitude]
@@ -88,7 +93,7 @@ const UserSchema = new mongoose.Schema(
       city: String,
       state: String,
       zipCode: String,
-      formattedAddress: String // "123 React Lane, NY"
+      formattedAddress: String, // "123 React Lane, NY"
     },
     // 🔹 Account Type
     role: {
@@ -133,18 +138,25 @@ const UserSchema = new mongoose.Schema(
     isOnline: { type: Boolean, default: false },
     reportCount: { type: Number, default: 0 },
 
-    jobTitle: { type: String, trim: true },
-    company: { type: String, trim: true },
-    education: { type: String, trim: true },
-    drinking: { type: String, enum: ["socially", "never", "frequently"] },
-    smoking: { type: String, enum: ["socially", "never", "frequently"] },
+    jobTitle: { type: String, trim: true, default: "Software Developer" },
+    company: { type: String, trim: true, default: "Snipbyte" },
+    education: { type: String, trim: true, default: "Bachelor" },
+    drinking: {
+      type: String,
+      enum: ["socially", "never", "frequently"],
+      default: "never",
+    },
+    smoking: {
+      type: String,
+      enum: ["socially", "never", "frequently"],
+      default: "never",
+    },
 
     lastActiveAt: Date,
   },
   { timestamps: true }
 );
 
-// 📍 Needed for nearby users search
 UserSchema.index({ location: "2dsphere" });
 
 export default mongoose.models.User || mongoose.model("User", UserSchema);

@@ -4,7 +4,6 @@ import { getUserFromRequest } from "../../../../backend/lib/auth/auth";
 import Users from "../../../../backend/models/users.model";
 import Story from "../../../../backend/models/stories.model";
 
-
 // export async function GET(req) {
 //   try {
 //     await connectDB();
@@ -75,85 +74,214 @@ import Story from "../../../../backend/models/stories.model";
 //   }
 // }
 
+// export async function GET(req) {
+//   try {
+//     await connectDB();
+//     const authUser = await getUserFromRequest(req);
+//     if (!authUser) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
+//     const currentUser = await Users.findById(authUser.id);
+//     const userId = currentUser._id.toString();
 
+//     // --- 1. Primary Fetch: Stories from Matches ---
+//     let stories = await Story.find({
+//       user: { $in: currentUser.matches },
+//       expiresAt: { $gt: new Date() }
+//     })
+//       .populate("user", "name profileImage")
+//       .sort({ createdAt: 1 });
+
+//     // --- 2. Fallback Logic: Fetch Public Stories if Matches have none ---
+//     if (stories.length === 0) {
+//       stories = await Story.find({
+//         user: { $ne: userId }, // Don't show my own stories in the feed
+//         expiresAt: { $gt: new Date() }
+//       })
+//         .populate("user", "name profileImage")
+//         .limit(50) // Maximum of 50 stories
+//         .sort({ createdAt: -1 }); // Show newest public stories first
+//     }
+
+//     // --- 3. Group stories by User (Same logic as before) ---
+//     const groupedStories = stories.reduce((acc, story) => {
+//       // Safety check in case a story exists for a deleted user
+//       if (!story.user) return acc;
+
+//       const storyAuthor = story.user;
+//       const authorId = storyAuthor._id.toString();
+
+//       let userGroup = acc.find((group) => group.userId === authorId);
+//       const isSeen = story.views.some(v => v.toString() === userId);
+
+//       const storyData = {
+//         ...story.toObject(),
+//         isSeen
+//       };
+
+//       if (!userGroup) {
+//         acc.push({
+//           userId: authorId,
+//           userName: storyAuthor.name,
+//           userImage: storyAuthor.profileImage,
+//           allSeen: isSeen,
+//           stories: [storyData]
+//         });
+//       } else {
+//         userGroup.stories.push(storyData);
+//         // If any single story in the bundle is NOT seen, set allSeen to false
+//         if (!isSeen) userGroup.allSeen = false;
+//       }
+
+//       return acc;
+//     }, []);
+
+//     // --- 4. Final Sort ---
+//     const sortedGroups = groupedStories.sort((a, b) => {
+//       const latestA = new Date(a.stories[a.stories.length - 1].createdAt);
+//       const latestB = new Date(b.stories[b.stories.length - 1].createdAt);
+//       return latestB - latestA;
+//     });
+
+//     return NextResponse.json({
+//       success: true,
+//       count: sortedGroups.length,
+//       data: sortedGroups
+//     });
+
+//   } catch (error) {
+//     console.error("Story Fetch Error:", error);
+//     return NextResponse.json({ message: "Server error", error: error.message }, { status: 500 });
+//   }
+// }
 
 export async function GET(req) {
   try {
     await connectDB();
+
     const authUser = await getUserFromRequest(req);
-    if (!authUser) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+
+    if (!authUser) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
 
     const currentUser = await Users.findById(authUser.id);
+
     const userId = currentUser._id.toString();
 
-    // --- 1. Primary Fetch: Stories from Matches ---
-    let stories = await Story.find({
-      user: { $in: currentUser.matches },
-      expiresAt: { $gt: new Date() }
+    // =========================================
+    // 1. FETCH MY STORIES
+    // =========================================
+    const myStories = await Story.find({
+      user: currentUser._id,
+      expiresAt: { $gt: new Date() },
     })
       .populate("user", "name profileImage")
       .sort({ createdAt: 1 });
 
-    // --- 2. Fallback Logic: Fetch Public Stories if Matches have none ---
+    // =========================================
+    // 2. FETCH MATCH STORIES
+    // =========================================
+    let stories = await Story.find({
+      user: { $in: currentUser.matches },
+      expiresAt: { $gt: new Date() },
+    })
+      .populate("user", "name profileImage")
+      .sort({ createdAt: 1 });
+
+    // =========================================
+    // 3. FALLBACK TO PUBLIC STORIES
+    // =========================================
     if (stories.length === 0) {
       stories = await Story.find({
-        user: { $ne: userId }, // Don't show my own stories in the feed
-        expiresAt: { $gt: new Date() }
+        user: { $ne: currentUser._id },
+        expiresAt: { $gt: new Date() },
       })
         .populate("user", "name profileImage")
-        .limit(50) // Maximum of 50 stories
-        .sort({ createdAt: -1 }); // Show newest public stories first
+        .limit(50)
+        .sort({ createdAt: -1 });
     }
 
-    // --- 3. Group stories by User (Same logic as before) ---
-    const groupedStories = stories.reduce((acc, story) => {
-      // Safety check in case a story exists for a deleted user
-      if (!story.user) return acc;
+    // =========================================
+    // 4. GROUP STORIES FUNCTION
+    // =========================================
+    const groupStoriesByUser = (storiesArray) => {
+      return storiesArray.reduce((acc, story) => {
+        if (!story.user) return acc;
 
-      const storyAuthor = story.user;
-      const authorId = storyAuthor._id.toString();
+        const storyAuthor = story.user;
 
-      let userGroup = acc.find((group) => group.userId === authorId);
-      const isSeen = story.views.some(v => v.toString() === userId);
+        const authorId = storyAuthor._id.toString();
 
-      const storyData = {
-        ...story.toObject(),
-        isSeen
-      };
+        let userGroup = acc.find((group) => group.userId === authorId);
 
-      if (!userGroup) {
-        acc.push({
-          userId: authorId,
-          userName: storyAuthor.name,
-          userImage: storyAuthor.profileImage,
-          allSeen: isSeen,
-          stories: [storyData]
-        });
-      } else {
-        userGroup.stories.push(storyData);
-        // If any single story in the bundle is NOT seen, set allSeen to false
-        if (!isSeen) userGroup.allSeen = false;
-      }
+        const isSeen = story.views.some((v) => v.toString() === userId);
 
-      return acc;
-    }, []);
+        const storyData = {
+          ...story.toObject(),
+          isSeen,
+        };
 
-    // --- 4. Final Sort ---
+        if (!userGroup) {
+          acc.push({
+            userId: authorId,
+            userName: storyAuthor.name,
+            userImage: storyAuthor.profileImage,
+            allSeen: isSeen,
+            isMine: authorId === userId,
+            stories: [storyData],
+          });
+        } else {
+          userGroup.stories.push(storyData);
+
+          if (!isSeen) {
+            userGroup.allSeen = false;
+          }
+        }
+
+        return acc;
+      }, []);
+    };
+
+    // =========================================
+    // 5. GROUP MY STORIES
+    // =========================================
+    const myGroupedStories = groupStoriesByUser(myStories);
+
+    // =========================================
+    // 6. GROUP OTHER STORIES
+    // =========================================
+    const groupedStories = groupStoriesByUser(stories);
+
+    // =========================================
+    // 7. SORT OTHER STORIES
+    // =========================================
     const sortedGroups = groupedStories.sort((a, b) => {
       const latestA = new Date(a.stories[a.stories.length - 1].createdAt);
+
       const latestB = new Date(b.stories[b.stories.length - 1].createdAt);
+
       return latestB - latestA;
     });
 
+    // =========================================
+    // 8. PUT MY STORIES FIRST
+    // =========================================
+    const finalStories = [...myGroupedStories, ...sortedGroups];
+
     return NextResponse.json({
       success: true,
-      count: sortedGroups.length,
-      data: sortedGroups
+      count: finalStories.length,
+      data: finalStories,
     });
-
   } catch (error) {
     console.error("Story Fetch Error:", error);
-    return NextResponse.json({ message: "Server error", error: error.message }, { status: 500 });
+
+    return NextResponse.json(
+      {
+        message: "Server error",
+        error: error.message,
+      },
+      { status: 500 }
+    );
   }
 }
