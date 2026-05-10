@@ -80,11 +80,12 @@ const UserSchema = new mongoose.Schema(
     location: {
       type: {
         type: String,
-        deafult: ["Point"],
+        // enum: ["Point"],
         default: "Point",
       },
+
       coordinates: {
-        type: [Number], // [longitude, latitude]
+        type: [Number],
         default: [0, 0],
       },
     },
@@ -131,9 +132,6 @@ const UserSchema = new mongoose.Schema(
 
     // 🔹 Status
     isVerified: { type: Boolean, default: false },
-
-    // 🔹 Status
-    isVerified: { type: Boolean, default: false },
     isBlocked: { type: Boolean, default: false },
     isOnline: { type: Boolean, default: false },
     reportCount: { type: Number, default: 0 },
@@ -153,10 +151,60 @@ const UserSchema = new mongoose.Schema(
     },
 
     lastActiveAt: Date,
+    preferences: {
+      messageNotifications: {
+        type: Boolean,
+        default: true,
+      },
+
+      matchNotifications: {
+        type: Boolean,
+        default: true,
+      },
+
+      likeNotifications: {
+        type: Boolean,
+        default: true,
+      },
+
+      storyNotifications: {
+        type: Boolean,
+        default: true,
+      },
+
+      emailNotifications: {
+        type: Boolean,
+        default: false,
+      },
+
+      showOnlineStatus: {
+        type: Boolean,
+        default: true,
+      },
+
+      showDistance: {
+        type: Boolean,
+        default: true,
+      },
+
+      showAge: {
+        type: Boolean,
+        default: true,
+      },
+
+      discoverable: {
+        type: Boolean,
+        default: true,
+      },
+    },
   },
   { timestamps: true }
 );
 
 UserSchema.index({ location: "2dsphere" });
 
-export default mongoose.models.User || mongoose.model("User", UserSchema);
+const User = mongoose.models.User || mongoose.model("User", UserSchema);
+
+User.syncIndexes();
+
+export default User;

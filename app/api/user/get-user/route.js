@@ -98,6 +98,7 @@ export async function GET(req) {
           lastActiveAt: 1,
           role: 1,
           distance: { $round: ["$distance", 1] }, // Round to 1 decimal place (e.g., 2.5 km)
+          email: 1,
         },
       }
     );

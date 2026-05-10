@@ -53,7 +53,6 @@ export async function PUT(req) {
       "gender",
       "interestedIn",
       "dob",
-      "location",
       "height",
       "age",
       "interests",
@@ -63,6 +62,13 @@ export async function PUT(req) {
         updates[field] = body[field];
       }
     });
+
+    if (body.location) {
+      updates.location = {
+        type: "Point",
+        coordinates: [body.location.longitude, body.location.latitude], // [lng, lat] — GeoJSON order
+      };
+    }
 
     // --- 4. Update Database ---
     const updatedUser = await User.findByIdAndUpdate(

@@ -214,7 +214,7 @@ export async function GET(req) {
 
         let userGroup = acc.find((group) => group.userId === authorId);
 
-        const isSeen = story.views.some((v) => v.toString() === userId);
+        const isSeen = story.views.some((v) => v.user?.toString() === userId);
 
         const storyData = {
           ...story.toObject(),

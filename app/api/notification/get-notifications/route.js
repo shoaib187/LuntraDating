@@ -19,13 +19,19 @@ export async function GET(req) {
     const limit = parseInt(searchParams.get("limit")) || 20;
     const skip = (page - 1) * limit;
 
-    const notifications = await Notification.find({ receiver: authUser.id })
-      .populate("sender", "name profileImage") // Get sender details for the UI
-      .sort({ createdAt: -1 }) // Newest first
+    const notifications = await Notification.find({
+      receiver: authUser.id,
+      type: { $ne: "message" },
+    })
+      .populate("sender", "name profileImage")
+      .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);
 
-    const total = await Notification.countDocuments({ receiver: authUser.id });
+    const total = await Notification.countDocuments({
+      receiver: authUser.id,
+      type: { $ne: "message" },
+    });
 
     return NextResponse.json({
       success: true,
@@ -37,6 +43,9 @@ export async function GET(req) {
       },
     });
   } catch (error) {
-    return NextResponse.json({ message: "Server error", error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { message: "Server error", error: error.message },
+      { status: 500 }
+    );
   }
 }

@@ -3,6 +3,8 @@ import connectDB from "../../../../backend/lib/db/db";
 import Message from "../../../../backend/models/messages.model";
 import User from "../../../../backend/models/users.model";
 import { getUserFromRequest } from "../../../../backend/lib/auth/auth";
+import Notification from "../../../../backend/models/notifications.model";
+import { sendPushNotification } from "@/backend/lib/notifications/sendPushNotifications";
 
 export async function POST(req) {
   try {
@@ -39,6 +41,20 @@ export async function POST(req) {
       receiver: receiverId,
       text,
     });
+
+    await Notification.create({
+      type: "message",
+
+      sender: sender?._id,
+
+      receiver: receiverId,
+
+      relatedId: newMessage?._id,
+
+      message: `${sender.name} sent you a message`,
+    });
+
+    await sendPushNotification(receiverId, sender.name, text);
 
     return NextResponse.json({
       success: true,

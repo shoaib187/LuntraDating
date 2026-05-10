@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import connectDB from "../../../../backend/lib/db/db";
 import User from "../../../../backend/models/users.model";
 import { getUserFromRequest } from "../../../../backend/lib/auth/auth";
+import Plan from "../../../../backend/models/plan.model";
 
 // Helper function to calculate distance in KM
 function getDistance(coords1, coords2) {

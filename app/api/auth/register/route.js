@@ -93,6 +93,17 @@ export async function POST(req) {
       },
       profileImage: profileImageUrl,
       photos: photos || [],
+      preferences: {
+        messageNotifications: true,
+        matchNotifications: true,
+        likeNotifications: true,
+        storyNotifications: true,
+        emailNotifications: false,
+        showOnlineStatus: true,
+        showDistance: true,
+        showAge: true,
+        discoverable: true,
+      },
     });
 
     // 4. Send the Email

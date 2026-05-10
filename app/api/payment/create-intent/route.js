@@ -1,4 +1,4 @@
-import Stripe from 'stripe';
+import Stripe from "stripe";
 
 export async function POST(req) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -11,13 +11,13 @@ export async function POST(req) {
     // 2. Create an Ephemeral Key (allows the mobile app to manage the customer)
     const ephemeralKey = await stripe.ephemeralKeys.create(
       { customer: customer.id },
-      { apiVersion: '2023-10-16' }
+      { apiVersion: "2023-10-16" }
     );
 
     // 3. Create the Payment Intent
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: amount * 100, // Amount in cents ($10 = 1000)
-      currency: 'usd',
+      amount: Math.round(amount * 100),
+      currency: "usd",
       customer: customer.id,
       automatic_payment_methods: { enabled: true },
     });
