@@ -52,12 +52,12 @@ export async function POST(req) {
 
       console.log("messageCount =>", messageCount);
 
-      if (messageCount >= 1) {
+      if (messageCount >= 10) {
         return NextResponse.json(
           {
             success: false,
             message:
-              "Free users can only send 1 direct message per day. Upgrade to Premium for unlimited!",
+              "Free users can only send 10 direct message per day. Upgrade to Premium for unlimited!",
           },
           { status: 403 }
         );

@@ -63,10 +63,24 @@ export async function PUT(req) {
       }
     });
 
-    if (body.location) {
+    if (
+      body.location &&
+      typeof body.location.longitude === "number" &&
+      typeof body.location.latitude === "number"
+    ) {
       updates.location = {
         type: "Point",
-        coordinates: [body.location.longitude, body.location.latitude], // [lng, lat] — GeoJSON order
+        coordinates: [body.location.longitude, body.location.latitude], // [lng, lat]
+      };
+    }
+
+    if (body.address) {
+      updates.address = {
+        street: body.address.street || "",
+        city: body.address.city || "",
+        state: body.address.state || "",
+        zipCode: body.address.zipCode || "",
+        formattedAddress: body.address.formattedAddress || "",
       };
     }
 
