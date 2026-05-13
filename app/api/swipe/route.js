@@ -11,7 +11,8 @@ export async function POST(req) {
     await connectDB();
 
     const currentUser = await getUserFromRequest(req);
-    if (!currentUser) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    if (!currentUser)
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
     const { targetUserId, direction } = await req.json(); // direction: 'left' or 'right'
 
@@ -22,10 +23,14 @@ export async function POST(req) {
     // if (user.role === "free" && user.usage.dailySwipes >= 20) {
     // ✅ Use optional chaining (?.) and a fallback value (|| 0)
     if (user.role === "free" && (user.usage?.dailySwipes || 0) >= 100) {
-      return NextResponse.json({
-        message: "Daily limit reached. Upgrade to Premium for unlimited swipes!",
-        limitReached: true
-      }, { status: 403 });
+      return NextResponse.json(
+        {
+          message:
+            "Daily limit reached. Upgrade to Premium for unlimited swipes!",
+          limitReached: true,
+        },
+        { status: 403 }
+      );
     }
 
     // 3. Process the Swipe
@@ -33,21 +38,25 @@ export async function POST(req) {
       // Add to likesSent
       await User.findByIdAndUpdate(user._id, {
         $addToSet: { likesSent: targetUserId },
-        $inc: { "usage.dailySwipes": 1 }
+        $inc: { "usage.dailySwipes": 1 },
       });
 
       // Update target's likesReceived
       await User.findByIdAndUpdate(targetUserId, {
-        $addToSet: { likesReceived: user._id }
+        $addToSet: { likesReceived: user._id },
       });
 
-      await sendPushNotification(targetUserId, "New Like!", "Someone liked you! Check it out.");
+      await sendPushNotification(
+        targetUserId,
+        "New Like!",
+        "Someone liked you! Check it out."
+      );
 
       await Notification.create({
         type: "like",
         sender: user?._id,
         receiver: targetUserId,
-        message: "Someone liked you!",
+        message: "liked your profile! Check it out.",
       });
 
       // 4. CHECK FOR A MATCH
@@ -60,7 +69,7 @@ export async function POST(req) {
           users: [user._id, targetUserId],
         });
 
-        // 2. Optionally, you can still keep a reference in the User model 
+        // 2. Optionally, you can still keep a reference in the User model
         // for quick "Are we matched?" checks, but it's no longer the primary source.
         await User.updateMany(
           { _id: { $in: [user._id, targetUserId] } },
@@ -68,25 +77,78 @@ export async function POST(req) {
         );
 
         // Add each other to matches arrays
-        await User.findByIdAndUpdate(user._id, { $addToSet: { matches: targetUserId } });
-        await User.findByIdAndUpdate(targetUserId, { $addToSet: { matches: user._id } });
+        await User.findByIdAndUpdate(user._id, {
+          $addToSet: { matches: targetUserId },
+        });
+        await User.findByIdAndUpdate(targetUserId, {
+          $addToSet: { matches: user._id },
+        });
+
+        // MATCH PERCENTAGE LOGIC
+        let matchScore = 0;
+
+        // Interests Match
+        const commonInterests =
+          user?.interests?.filter((interest) =>
+            targetUser?.interests?.includes(interest)
+          ) || [];
+
+        matchScore += commonInterests.length * 10;
+
+        // Gender Preference Match
+        if (
+          user?.interestedIn === "everyone" ||
+          user?.interestedIn === targetUser?.gender
+        ) {
+          matchScore += 20;
+        }
+
+        // Lifestyle Match
+        if (user?.smoking === targetUser?.smoking) {
+          matchScore += 10;
+        }
+
+        if (user?.drinking === targetUser?.drinking) {
+          matchScore += 10;
+        }
+
+        // Education Match
+        if (user?.education === targetUser?.education) {
+          matchScore += 10;
+        }
+
+        // Clamp to 100
+        if (matchScore > 100) {
+          matchScore = 100;
+        }
 
         return NextResponse.json({
           success: true,
           match: true,
           message: "It's a Match!",
-          matchedUser: { name: targetUser.name, photo: targetUser.photos[0] }
+
+          matchedUser: {
+            _id: targetUser?._id,
+            name: targetUser?.name,
+            photo: targetUser?.photos?.[0] || targetUser?.profileImage || null,
+            matchPercentage: matchScore,
+            commonInterests,
+          },
         });
       }
     } else {
       // If left swipe, just increment usage and move on
-      await User.findByIdAndUpdate(user._id, { $inc: { "usage.dailySwipes": 1 } });
+      await User.findByIdAndUpdate(user._id, {
+        $inc: { "usage.dailySwipes": 1 },
+      });
     }
 
     return NextResponse.json({ success: true, match: false });
-
   } catch (error) {
     console.error("Swipe Error:", error);
-    return NextResponse.json({ message: "Server Error", error }, { status: 500 });
+    return NextResponse.json(
+      { message: "Server Error", error },
+      { status: 500 }
+    );
   }
 }

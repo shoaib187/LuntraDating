@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import connectDB from '../../../../backend/lib/db/db';
-import User from '../../../../backend/models/users.model';
+import connectDB from "../../../../backend/lib/db/db";
+import User from "../../../../backend/models/users.model";
 
 export async function POST(req) {
   try {
@@ -20,7 +20,10 @@ export async function POST(req) {
     // 🔹 Find user
     const user = await User.findOne({ email }).select("+password");
     if (!user) {
-      return NextResponse.json({ message: "Invalid credentials" }, { status: 401 });
+      return NextResponse.json(
+        { message: "Invalid credentials" },
+        { status: 401 }
+      );
     }
 
     // if (!user.isVerified) {
@@ -37,7 +40,10 @@ export async function POST(req) {
     // 🔹 Compare password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return NextResponse.json({ message: "Invalid credentials" }, { status: 401 });
+      return NextResponse.json(
+        { message: "Invalid credentials" },
+        { status: 401 }
+      );
     }
 
     // 🔹 Create JWT token
@@ -51,7 +57,6 @@ export async function POST(req) {
       { success: true, token, user: userData },
       { status: 200 }
     );
-
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: "Server error" }, { status: 500 });

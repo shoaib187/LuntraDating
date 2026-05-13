@@ -104,6 +104,13 @@ export async function POST(req) {
         showAge: true,
         discoverable: true,
       },
+      address: {
+        city: body.city || "",
+        state: body.state || "",
+        street: body.street || "",
+        zipCode: body.zipCode || "",
+        formattedAddress: body.formattedAddress || "",
+      },
     });
 
     // 4. Send the Email

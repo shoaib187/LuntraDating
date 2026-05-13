@@ -1,26 +1,60 @@
+import { NextResponse } from "next/server";
+
 import { getUserFromRequest } from "../../../../backend/lib/auth/auth";
 import connectDB from "../../../../backend/lib/db/db";
+
 import Notification from "../../../../backend/models/notifications.model.js";
 
 export async function PATCH(req) {
   try {
     await connectDB();
+
     const authUser = await getUserFromRequest(req);
+
+    if (!authUser) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Unauthorized",
+        },
+        { status: 401 }
+      );
+    }
+
     const { notificationId, all } = await req.json();
 
     if (all) {
-      // Mark all as read for this user
+      // Mark all notifications as read
       await Notification.updateMany(
-        { receiver: authUser.id, isRead: false },
-        { $set: { isRead: true } }
+        {
+          receiver: authUser._id,
+          isRead: false,
+        },
+        {
+          $set: { isRead: true },
+        }
       );
     } else {
-      // Mark a specific notification as read
-      await Notification.findByIdAndUpdate(notificationId, { isRead: true });
+      // Mark single notification as read
+      await Notification.findByIdAndUpdate(notificationId, {
+        isRead: true,
+      });
     }
 
-    return NextResponse.json({ success: true, message: "Notifications updated" });
+    return NextResponse.json({
+      success: true,
+      message: "Notifications updated",
+    });
   } catch (error) {
-    return NextResponse.json({ message: "Update failed", error: error.message }, { status: 500 });
+    console.log("Notification update error:", error);
+
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Update failed",
+        error: error.message,
+      },
+      { status: 500 }
+    );
   }
 }

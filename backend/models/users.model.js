@@ -80,7 +80,6 @@ const UserSchema = new mongoose.Schema(
     location: {
       type: {
         type: String,
-        // enum: ["Point"],
         default: "Point",
       },
 
