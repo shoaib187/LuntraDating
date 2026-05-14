@@ -166,13 +166,13 @@ export async function GET(req) {
 
     const currentUser = await Users.findById(authUser.id);
 
-    const userId = currentUser._id.toString();
+    const userId = currentUser?._id?.toString();
 
     // =========================================
     // 1. FETCH MY STORIES
     // =========================================
     const myStories = await Story.find({
-      user: currentUser._id,
+      user: currentUser?._id,
       expiresAt: { $gt: new Date() },
     })
       .populate("user", "name profileImage")

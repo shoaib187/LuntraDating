@@ -16,7 +16,6 @@ export async function PUT(req) {
     const body = await req.json();
     const updates = {};
 
-    // --- 1. Handle Single Profile Image ---
     if (body.profileImage) {
       if (body.profileImage.startsWith("data:image")) {
         // If it's a new Base64 string, upload to Cloudinary
@@ -30,7 +29,6 @@ export async function PUT(req) {
       }
     }
 
-    // --- 2. Handle Multiple Photos Array ---
     if (body.photos && Array.isArray(body.photos)) {
       // Use Promise.all to upload all new images in parallel
       updates.photos = await Promise.all(
@@ -46,7 +44,10 @@ export async function PUT(req) {
       );
     }
 
-    // --- 3. Handle Other Basic Fields ---
+    if (typeof body.isOnline === "boolean") {
+      updates.isOnline = body.isOnline;
+    }
+
     const basicFields = [
       "name",
       "bio",
@@ -57,6 +58,7 @@ export async function PUT(req) {
       "age",
       "interests",
     ];
+
     basicFields.forEach((field) => {
       if (body[field] !== undefined) {
         updates[field] = body[field];
@@ -88,7 +90,7 @@ export async function PUT(req) {
     const updatedUser = await User.findByIdAndUpdate(
       currentUser.id,
       { $set: updates },
-      { new: true, runValidators: true }
+      { returnDocument: "after", runValidators: true }
     ).select("-password");
 
     if (!updatedUser) {
